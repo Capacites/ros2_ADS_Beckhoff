@@ -1,8 +1,12 @@
-# ROS_ADS_Beckhoff
+# ROS2_ADS_Beckhoff
+
+
+> __Warning__
+STILL UNDER DEVELOPEMENT
 
 ## Overview
 
-A ROS package for communication with Beckhoff's ADS devices
+A ROS2 package for communication with Beckhoff's ADS devices
 
 **Keywords:** ROS, ADS, Beckhoff ADS
 
@@ -20,10 +24,10 @@ The source code is released under a [MIT License](LICENSE).
 
 #### Building
 
-	cd ros_workspace/src
+	cd ROS2WS
 	git clone -b main --recursive https://github.com/Capacites/ros_ADS_Beckhoff.git
 	cd ..
-	catkin_make
+	colcon build
 
 ## Node
 
@@ -109,7 +113,7 @@ ros_ads only supports the following ADS variable types :
 
 ## Utilities
 
-ros_ads_msgs provides a `decode` function to use on a [ros_ads_msgs/ADS] message and returning `std::map<std::string, variant_t>`.
+ros_ads_decode provides a `decode` function to use on a [ros_ads_msgs/ADS] message and returning `std::map<std::string, variant_t>`.
 `variant_t` is defined as `std::variant<bool, uint8_t, int8_t, uint16_t, int16_t, uint32_t, int32_t, int64_t, float, double, tm>`.
 
 ## Setup your ADS route
