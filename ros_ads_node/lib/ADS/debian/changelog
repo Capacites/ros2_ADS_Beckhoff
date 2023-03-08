@@ -1,0 +1,75 @@
+adstool (0.0.14-1) bullseye; urgency=medium
+
+  * AdsTool: fixed exit code for license commands
+
+ -- Julian Heuking <J.Heuking@beckhoff.com>  Thu, 02 Jun 2022 12:42:19 +0200
+
+adstool (0.0.13-1) bullseye; urgency=medium
+
+  * AdsTool: adjust manpage for TC/BSD and other variants
+    AdsTool: replace SYSTEMSERVICE_OPENGENERIC with FOPEN::READ
+    AdsTool: implement --retry
+    AdsDef: deprecate enum nSystemServiceOpenFile
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Thu, 05 May 2022 14:23:58 +0200
+
+adstool (0.0.12-1) bullseye; urgency=medium
+
+  * AdsTool: repair var --type=BOOL/BYTE
+    AdsTool: fix endianess for var command
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Fri, 04 Mar 2022 20:28:39 +0100
+
+adstool (0.0.11-1) bullseye; urgency=medium
+
+  * AdsLib: add IPv6 support
+    AdsLib: support variable TCP port for ADS destination
+    AdsTool: fix broken --log-level option
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Mon, 21 Feb 2022 14:57:24 +0100
+
+adstool (0.0.10-1) bullseye; urgency=medium
+
+  * libads-dev: new package to easily install AdsLib as build dependency
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Tue, 23 Nov 2021 11:31:06 +0100
+
+adstool (0.0.9-1) bullseye; urgency=medium
+
+  * release to bullseye
+
+ -- Julian Heuking <J.Heuking@beckhoff.com>  Thu, 21 Oct 2021 12:03:24 +0200
+
+adstool (0.0.8-1) buster; urgency=medium
+
+  * adstool: show usage() on stderr
+    adstool: support --help to show usage() on stdout
+    adstool: support --log-level to reduce or increase verbosity
+    adstool: support --version
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Tue, 12 Oct 2021 11:22:48 +0200
+
+adstool (0.0.7-1) buster; urgency=medium
+
+  * adstool: add support to read volume license identifier
+    adstool: reduce verbosity
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Thu, 07 Oct 2021 12:56:57 +0200
+
+adstool (0.0.6-2) buster; urgency=medium
+
+  * Version bump as we still had a bug in publish debian script
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Thu, 12 Aug 2021 15:11:11 +0200
+
+adstool (0.0.6-1) buster; urgency=medium
+
+  * Version bump to force debian build and repo update
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Thu, 12 Aug 2021 12:22:54 +0200
+
+adstool (0.0.5-1) buster; urgency=medium
+
+  * Initial release
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Tue, 03 Aug 2021 13:24:52 +0200

@@ -1,0 +1,172 @@
+stages:
+  - build
+  - test
+  - release-push
+
+cache:
+  paths:
+  - apt-cache/
+
+.build-meson:
+  stage: build
+  script:
+    - meson setup build ${BHF_CI_MESON_OPTIONS}
+    - ninja -C build
+    - meson setup example/build example ${BHF_CI_MESON_OPTIONS}
+    - ninja -C example/build
+  artifacts:
+    when: always
+    paths:
+    - AdsLib/**/*.h
+    - build/
+    - example/build/
+
+.build-meson-docker:
+  extends: .build-meson
+  tags:
+    - docker
+  image: ${REGISTRY_HOST}/beckhoff/docker-mxe:40549
+
+build-linux-clang:
+  extends: .build-meson-docker
+  variables:
+    CXX: clang++
+
+build-fbsd-clang:
+  extends: .build-meson
+  tags:
+    - tcbsd
+  before_script:
+    - doas pkg install -y meson
+    # we dont limit grep --max-count=1, because curl would complain if grep closes the pipe
+    - curl https://tcbsd.beckhoff.com/TCBSD/12/stable/packages/All/ | grep --only-matching -e "href='.*ADS-Comm-Lib.*'" | cut -d "'" -f 2 | xargs -I{} fetch https://tcbsd.beckhoff.com/TCBSD/12/stable/packages/All/{}
+    - doas pkg install -y -f TF6000-ADS-Comm-Lib-*
+  variables:
+    BHF_CI_MESON_OPTIONS: '-Dtcadsdll_include=/usr/local/include -Dtcadsdll_lib=/usr/local/lib'
+
+build-linux-gcc:
+  extends: .build-meson-docker
+
+build-linux-gcc-i386:
+  extends: .build-meson-docker
+  variables:
+    BHF_CI_MESON_OPTIONS: '--cross-file meson.cross.amd64-linux.i386'
+
+build-linux-gcc-mips:
+  extends: .build-meson-docker
+  variables:
+    BHF_CI_MESON_OPTIONS: '--cross-file meson.cross.amd64-linux.mips'
+  before_script:
+    - apt update -y && apt install -y g++-mips-linux-gnu
+
+build-mxe:
+  extends: .build-meson-docker
+  variables:
+    BHF_CI_MESON_OPTIONS: '--cross-file meson.cross.amd64-linux.win32 -Dcpp_std=c++14 -Db_pie=false'
+
+build-win10:
+  extends: .build-meson
+  tags:
+    - MD_TWINCAT_XAE
+  before_script:
+    - C:\ProgramData\chocolatey\bin\choco install --no-progress -y meson ninja
+    - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    - $env:BHF_CI_MESON_OPTIONS = '-Dtcadsdll_include=c:\TwinCAT\AdsApi\TcAdsDll\Include', '-Dtcadsdll_lib=c:\TwinCAT\AdsApi\TcAdsDll\x64\lib'
+
+.test-linux:
+  stage: test
+  image: ${REGISTRY_HOST}/beckhoff/test_stage/test_runner:4.5
+  tags:
+    - docker_vm_runner
+    - few_vcpus
+  services:
+    - name: ${REGISTRY_HOST}/beckhoff/build-linuxum:patrickbr-docker-adslib
+      alias: ads-server
+  variables:
+    EXPECTED_PLATFORMID: 92
+    EXPECTED_SYSTEMID: '95EEFDE0-0392-1452-275F-1BF9ACCB924E'
+  script:
+    - apt update -y && apt install -y socat xxd
+    - ./tools/90_run_tests.sh
+
+test-linux-clang:
+  extends: .test-linux
+  needs: [
+    "build-linux-clang",
+  ]
+
+test-linux-gcc:
+  extends: .test-linux
+  needs: [
+    "build-linux-gcc",
+  ]
+
+test-linux-gcc-i386:
+  extends: .test-linux
+  needs: [
+    "build-linux-gcc-i386",
+  ]
+  before_script:
+    - dpkg --add-architecture i386
+    - apt update -y && apt install -y libc6:i386 libstdc++6:i386
+
+test-linux-gcc-mips:
+  extends: .test-linux
+  needs: [
+    "build-linux-gcc-mips",
+  ]
+  variables:
+    QEMU_LD_PREFIX: '/usr/mips-linux-gnu'
+  before_script:
+    - apt update -y && apt install -y binfmt-support libstdc++-dev-mips-cross qemu-user-binfmt
+    # TODO remove as soon as we won't require privileged containers for TC anymore
+    - update-binfmts --enable qemu-mips
+    - update-binfmts --disable qemu-mipsn32
+
+test-fbsd-clang:
+  stage: test
+  needs: [
+    "build-fbsd-clang",
+  ]
+  tags:
+    - adslib
+    - tcbsd
+  variables:
+    BHF_CI_NAT_IP: '172.17.62.51'
+    EXPECTED_PLATFORMID: 90
+    EXPECTED_SYSTEMID: 'E5898A06-9629-71CC-8474-DD555071C0EB'
+  before_script:
+    - echo "172.17.66.104 ads-server" | doas tee -a /etc/hosts
+    - nc -z 172.17.66.104 48897
+    - sleep 10
+  script:
+    - doas pkg install -y vim
+    - ./tools/90_run_tests.sh
+
+build-debian:
+  image: ${REGISTRY_HOST}/beckhoff/bdpg:master
+  stage: build
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends meson
+  script:
+    - bdpg build
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      - ./debian-release
+
+release-push:
+  image: ${REGISTRY_HOST}/beckhoff/bdpg:master
+  stage: release-push
+  dependencies:
+    - build-debian
+  only:
+    refs:
+      - master
+  script:
+    - mkdir -p "/root/.ssh"
+    - printf '%s\n' "Host *" > /root/.ssh/config
+    - printf '\t%s\n' "StrictHostKeyChecking no" "UserKnownHostsFile /dev/null" >> /root/.ssh/config
+    - .ci/publish_debian_package.sh
+  allow_failure: true

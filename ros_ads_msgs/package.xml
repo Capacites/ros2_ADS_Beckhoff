@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<package format="3">
+  <name>ros_ads_msgs</name>
+  <version>1.0.0</version>
+  <description>Basic messages used to communicate with a ros_ads_node node and report it's state</description>
+
+  <author email="alexis.fetet@capacites.fr">Alexis Fetet</author>
+  <author email="elvin.corbel@etu.univ-nantes.fr">elvin</author>
+  <author email="julien.viaud@capacites.fr">Julien Viaud</author>
+  <maintainer email="julien.viaud@capacites.fr">Julien Viaud</maintainer>
+
+ <license>BSD</license>
+
+  <!--
+  <url type="website">TODO</url>
+  <url type="repository">TODO</url>
+  <url type="bugtracker">TODO</url>
+  -->
+    
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  
+  <build_depend>rosidl_default_generators</build_depend>
+  
+  <depend>std_msgs</depend>
+
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
