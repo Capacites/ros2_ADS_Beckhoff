@@ -25,7 +25,7 @@ The source code is released under a [MIT License](LICENSE).
 #### Building
 
 	cd ROS2WS
-	git clone -b main --recursive https://github.com/Capacites/ros_ADS_Beckhoff.git
+	git clone -b main --recursive https://github.com/Capacites/ros2_ADS_Beckhoff.git
 	cd ..
 	colcon build
 
