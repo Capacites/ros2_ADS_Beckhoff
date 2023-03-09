@@ -11,6 +11,8 @@
   <license>MIT</license>
 
   <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+
   <depend>std_msgs</depend>
   <depend>ros_ads_msgs</depend>
   <depend>ros_ads_decode</depend>

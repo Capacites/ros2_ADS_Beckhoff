@@ -34,8 +34,13 @@ install(TARGETS ${PROJECT_NAME}
 )
 
 install(DIRECTORY
-  launch config
-  DESTINATION share/${PROJECT_NAME}/)
+  launch
+  DESTINATION share/${PROJECT_NAME}
+)
+install(DIRECTORY
+  config
+  DESTINATION share/${PROJECT_NAME}
+)
   
 ament_package()
 

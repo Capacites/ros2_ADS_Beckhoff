@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="config" default="$(find-pkg-share ros_ads_node)/config/configuration.yaml" />
+
+	<node pkg="ros_ads_node" exec="ros_ads_node" name="ros_ads_node">
+	    <param name="name" value="test_device"/>
+	    <param name="YAML_config_file" value="$(var config)"/>
+	</node>
+</launch>
