@@ -165,6 +165,16 @@ private:
     ros_ads_msgs::msg::State m_state_msg;                           /*!< state message                                             */
 
     //ROS components
+    rclcpp::CallbackGroup::SharedPtr mp_callback_group_subscriber = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);          /*!< Subscriber callback group    */
+    rclcpp::CallbackGroup::SharedPtr mp_callback_group_publisher = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);           /*!< Publisher callback group     */
+    rclcpp::CallbackGroup::SharedPtr mp_callback_group_update = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);              /*!< Update callback group        */
+    rclcpp::CallbackGroup::SharedPtr mp_callback_group_checker = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);             /*!< Event checker callback group */
+    rclcpp::CallbackGroup::SharedPtr mp_callback_group_reconnection = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);        /*!< Reconnection callback group  */
+    rclcpp::CallbackGroup::SharedPtr mp_callback_group_state = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);               /*!< State callback group         */
+
+
+
+
     
     rclcpp::Publisher<ros_ads_msgs::msg::State>::SharedPtr m_state_publisher;                          /*!< state publisher                                           */
     rclcpp::Publisher<ros_ads_msgs::msg::ADS>::SharedPtr m_event_publisher;                       /*!< on event publisher                                        */
@@ -173,7 +183,8 @@ private:
   
     rclcpp::TimerBase::SharedPtr m_publisher_timer;
     rclcpp::TimerBase::SharedPtr m_checker_timer;
-    rclcpp::TimerBase::SharedPtr m_update_timer;              /*!< state publisher thread                                    */
+    rclcpp::TimerBase::SharedPtr m_update_timer;              /*!< state publisher thread  */
+    rclcpp::TimerBase::SharedPtr m_state_timer;               /*!< State publisher timer              */
 };
 
 }
