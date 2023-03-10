@@ -11,7 +11,6 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ros_ads_msgs REQUIRED)
-find_package(ros_ads_decode REQUIRED)
 find_package(Threads REQUIRED)
 find_package(yaml-cpp REQUIRED)
 set(req_deps
@@ -25,7 +24,7 @@ target_include_directories(${PROJECT_NAME}  PRIVATE include)
 
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} yaml-cpp ads -lpthread )
-ament_target_dependencies(${PROJECT_NAME} rclcpp std_msgs ros_ads_msgs ros_ads_decode)
+ament_target_dependencies(${PROJECT_NAME} rclcpp std_msgs ros_ads_msgs)
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib

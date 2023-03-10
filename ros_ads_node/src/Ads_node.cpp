@@ -160,7 +160,7 @@ bool ADSNode::subscriber_callback(ros_ads_msgs::msg::ADS::SharedPtr msg)
 {
     m_state_publisher->publish(m_state_msg);
     bool result = true;
-    auto command = ros_ads_decode::decode(msg);
+    auto command = ros_ads_msgs::decode(msg);
 
     try {
         if(m_ADS.getState())
@@ -304,57 +304,57 @@ void ADSNode::update_timer_callback()
                 m_variables[name].first = pair.first;
                 switch (pair.second.index())
                 {
-                case ros_ads_decode::BOOL:
+                case ros_ads_msgs::BOOL:
                 {
                     m_variables[name].second = static_cast<double>(get<bool>(pair.second));
                     break;
                 }
-                case ros_ads_decode::UINT8_T:
+                case ros_ads_msgs::UINT8_T:
                 {
                     m_variables[name].second = static_cast<double>(get<uint8_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::INT8_T:
+                case ros_ads_msgs::INT8_T:
                 {
                     m_variables[name].second = static_cast<double>(get<int8_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::UINT16_T:
+                case ros_ads_msgs::UINT16_T:
                 {
                     m_variables[name].second = static_cast<double>(get<uint16_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::INT16_T:
+                case ros_ads_msgs::INT16_T:
                 {
                     m_variables[name].second = static_cast<double>(get<int16_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::UINT32_T:
+                case ros_ads_msgs::UINT32_T:
                 {
                     m_variables[name].second = static_cast<double>(get<uint32_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::INT32_T:
+                case ros_ads_msgs::INT32_T:
                 {
                     m_variables[name].second = static_cast<double>(get<int32_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::INT64_T:
+                case ros_ads_msgs::INT64_T:
                 {
                     m_variables[name].second = static_cast<double>(get<int64_t>(pair.second));
                     break;
                 }
-                case ros_ads_decode::FLOAT:
+                case ros_ads_msgs::FLOAT:
                 {
                     m_variables[name].second = static_cast<double>(get<float>(pair.second));
                     break;
                 }
-                case ros_ads_decode::DOUBLE:
+                case ros_ads_msgs::DOUBLE:
                 {
                     m_variables[name].second = static_cast<double>(get<double>(pair.second));
                     break;
                 }
-                case ros_ads_decode::DATE:
+                case ros_ads_msgs::DATE:
                 {
                     tm temp = get<tm>(pair.second);
                     m_variables[name].second = static_cast<double>(mktime(&temp));
