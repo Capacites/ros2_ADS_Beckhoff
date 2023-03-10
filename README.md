@@ -1,9 +1,6 @@
 # ROS2_ADS_Beckhoff
 
 
-> __Warning__
-STILL UNDER DEVELOPEMENT
-
 ## Overview
 
 A ROS2 package for communication with Beckhoff's ADS devices
