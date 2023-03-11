@@ -6,14 +6,13 @@
 #include "../lib/ADS/AdsLib/standalone/AdsDef.h"
 #include "../lib/ADS/AdsLib/AdsLib.h"
 #include "../lib/ADS/AdsLib/AdsVariable.h"
-#include <ros_ads_decode/ADSDecode.hpp>
+#include <ros_ads_msgs/ADSDecode.hpp>
 #include <time.h>
-#include <boost/thread/thread.hpp>
 #include <variant>
 #include <mutex>
 
 using namespace std;
-using namespace ros_ads_decode;
+using namespace ros_ads_msgs;
 class RosAds_Interface
 {
   

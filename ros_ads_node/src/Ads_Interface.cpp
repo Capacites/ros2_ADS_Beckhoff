@@ -2,7 +2,7 @@
 
 using namespace std;
 
-using namespace ros_ads_decode;
+using namespace ros_ads_msgs;
 /**
  * @brief RosAds_Interface simple consctructor
  */
@@ -159,57 +159,57 @@ variant_t RosAds_Interface::adsReadValue(string name)
                   m_RouteMapping[name]->ReadValue(value);
                   switch(m_VariableMapping[name].first)
                   {
-                  case ros_ads_decode::BOOL:
+                  case ros_ads_msgs::BOOL:
                   {
                       result =*(bool*)value;
                       break;
                   }
-                  case ros_ads_decode::UINT8_T:
+                  case ros_ads_msgs::UINT8_T:
                   {
                       result = *(uint8_t*)value;
                       break;
                   }
-                  case ros_ads_decode::INT8_T:
+                  case ros_ads_msgs::INT8_T:
                   {
                       result = *(int8_t*)value;
                       break;
                   }
-                  case ros_ads_decode::UINT16_T:
+                  case ros_ads_msgs::UINT16_T:
                   {
                       result = *(uint16_t*)value;
                       break;
                   }
-                  case ros_ads_decode::INT16_T:
+                  case ros_ads_msgs::INT16_T:
                   {
                       result = *(int16_t*)value;
                       break;
                   }
-                  case ros_ads_decode::UINT32_T:
+                  case ros_ads_msgs::UINT32_T:
                   {
                       result = *(uint32_t*)value;
                       break;
                   }
-                  case ros_ads_decode::INT32_T:
+                  case ros_ads_msgs::INT32_T:
                   {
                       result = *(int32_t*)value;
                       break;
                   }
-                  case ros_ads_decode::INT64_T:
+                  case ros_ads_msgs::INT64_T:
                   {
                       result = *(int64_t*)value;
                       break;
                   }
-                  case ros_ads_decode::FLOAT:
+                  case ros_ads_msgs::FLOAT:
                   {
                       result = *(float*)value;
                       break;
                   }
-                  case ros_ads_decode::DOUBLE:
+                  case ros_ads_msgs::DOUBLE:
                   {
                       result = *(double*)value;
                       break;
                   }
-                  case ros_ads_decode::DATE:
+                  case ros_ads_msgs::DATE:
                   {
                       result = *(uint32_t*)value;
                       break;
@@ -245,9 +245,9 @@ variant_t RosAds_Interface::adsReadValue(string name)
  * @param varNames names of the variables to read
  * @return vector<variant_t> values of the variables
  */
-vector<ros_ads_decode::variant_t> RosAds_Interface::adsReadVariables(vector<string> varNames)
+vector<ros_ads_msgs::variant_t> RosAds_Interface::adsReadVariables(vector<string> varNames)
 {
-  vector<ros_ads_decode::variant_t> result;
+  vector<ros_ads_msgs::variant_t> result;
 
   for (auto& name: varNames)
   {
@@ -507,7 +507,7 @@ bool RosAds_Interface::bindPLcVar()
 
       string type = m_VariableADS[adsName];
       m_VariableMapping[alias] = pair<int, string>(convert_type_from_string(type), type);
-      m_variables_map[alias] = pair<string, ros_ads_decode::variant_t>(type, variant_t());
+      m_variables_map[alias] = pair<string, ros_ads_msgs::variant_t>(type, variant_t());
       m_Alias_map[alias] = adsName;
       factory(alias);
     }

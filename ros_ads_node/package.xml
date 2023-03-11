@@ -15,7 +15,6 @@
 
   <depend>std_msgs</depend>
   <depend>ros_ads_msgs</depend>
-  <depend>ros_ads_decode</depend>
   
   <export>
     <build_type>ament_cmake</build_type>

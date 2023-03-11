@@ -1,6 +1,6 @@
-#include <ros_ads_decode/ADSDecode.hpp>
+#include "ros_ads_msgs/ADSDecode.hpp"
 
-std::map<std::string, ros_ads_decode::variant_t> ros_ads_decode::decode(ros_ads_msgs::msg::ADS::SharedPtr p_msg)
+std::map<std::string, ros_ads_msgs::variant_t> ros_ads_msgs::decode(ros_ads_msgs::msg::ADS::SharedPtr p_msg)
 {
     std::map<std::string, std::variant<bool, uint8_t, int8_t, uint16_t, int16_t, uint32_t, int32_t, int64_t, float, double, tm>> result;
     std::string name;
@@ -79,24 +79,22 @@ std::map<std::string, ros_ads_decode::variant_t> ros_ads_decode::decode(ros_ads_
                 cresult = true;
                 break;
             }
-            /*if(type == "DATE")
+            if(type == "DATE")
             {
                 auto temp = static_cast<uint32_t>(value);
-                ros::Time currentDate(temp);
-                time_t tDate(currentDate.toSec());
+                rclcpp::Time currentDate(temp);
+                time_t tDate(RCUTILS_NS_TO_S(currentDate.nanoseconds()));
                 tm tmDate;
-                gmtime_r(&tDate,&tmDate);
+                gmtime_r(&tDate, &tmDate);
                 converted_value = tmDate;
                 cresult = true;
                 break;
-            }*/
-        }
-        while(false);
-        if(cresult)
+            }
+        } while (false);
+        if (cresult)
         {
             result[name] = converted_value;
         }
     }
     return result;
 }
-
